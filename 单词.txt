@@ -1,0 +1,8 @@
+asd
+服务;server
+选择其：select
+dongwu:animal
+字符:character
+最佳可行函式:test viable function
+运算子调用操作符：call operator call
+箭头运算子:arrow operator arrow`
