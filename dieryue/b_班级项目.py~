@@ -1,0 +1,36 @@
+class Banji:
+    def __init__(self,teacher,number):
+        self.teacher=teacher
+        self.number=number
+        self.student=[]
+    def zhui(self):
+        self.student.append(self.teacher)
+class Student:
+    def __init__(self,name,age,sex):
+        self.name=name
+        self.age=age
+        self.sex
+        
+class Grade:
+    def __init__(self,yuwen,shuxue,english):
+        self.yuwen=80
+        self.shuxue=85
+        self.english=90
+        grade={}
+    def ke(self):
+        
+    def get_cha(self,people):
+        if people == '语文':
+            s =  return self.yuwen
+            print(s)
+        elif people == '数学':
+            return self.shuxue
+        elif people == '英语':
+            return self.english
+        else :
+            return '见鬼，这门科目没有开始'
+
+
+
+
+
