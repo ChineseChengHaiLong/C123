@@ -10,15 +10,40 @@ class Feiji(object):   #创建飞机类
         self.ing_path=ing_path#飞机路径
         self.Feiphoto = pygame.image.load(self.ing_path)#飞机图获取代码中，背景
         self.Feiweizhi = pygame.Rect(self.x,self.y,self.w,self.h)#飞机的位置
+        self.bullet_list=[]# 定义子弹的保存列表
     def weizhi(self):#定义把飞机图加载到窗口上并定义位置
         self.chuangkou.blit(self.Feiphoto,self.Feiweizhi)
+        for i in self.bullet_list:  #显示子弹
+            i.weizhi()  #子弹的对像.weizhi()
+            i.move()
+     # 发射子弹
+    def fire(self):
+        a = Zidan('./images/bullet.png',self.chuangkou,self.Feiweizhi.x,self.Feiweizhi.y)#定义子弹的对象
+        self.bullet_list.append(a)#把子弹追加到子弹列表中
+class Zidan(object):   #创建子弹类
+    #初始值子弹图片路径、游戏窗口
+    def __init__(self,ing_path,chuangkou,x,y):
+        self.x=x
+        self.y=y
+        self.chuangkou=chuangkou#游戏窗口
+        self.ing_path=ing_path#子弹路径
+        self.bulletphoto = pygame.image.load(self.ing_path)#子弹图获取代码中，背景
+    def weizhi(self):#定义把子弹图加载到窗口上并定义位置
+        self.chuangkou.blit(self.bulletphoto,(self.x,self.y))
+    def move(self):
+        self.y -= 2
 def jianshi(hero,move):
         for i in pygame.event.get():#游戏事件的监听，控制
             if i.type == pygame.QUIT:#如果某一操作等于退出
                 print('退出程序')
                 pygame.quit()#退出程序
                 exit()
+            elif i.type == pygame.KEYDOWN:
+                if i.key == pygame.K_SPACE:
+                    hero.fire()
         keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]or keys[pygame.K_x]:
+            hero.fire()
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             hero.Feiweizhi.x += move
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
