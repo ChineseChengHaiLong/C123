@@ -7,6 +7,11 @@ class Enemyplane(Plane):   #创建飞机类
     def __init__(self,ing_path,chuangkou):
         Plane.__init__(self,ing_path,chuangkou,0,0)
         self.flag = 'right'
+        self.di_list=[]
+        self.panzha = False
+        self.num = 0
+        self.data = 0
+        self.dibaotu()
     def move(self):#定义move方法使敌机左右移动
         if self.flag == 'right':
             self.Feiweizhi.x += 2
@@ -26,6 +31,26 @@ class Enemyplane(Plane):   #创建飞机类
     def fire1(self):
         a = Dizidan('./images/bullet1.png',self.chuangkou,self.Feiweizhi.x+70,self.Feiweizhi.y)#定义子弹的对象
         self.bullet_list.append(a)#把子弹追加到子弹列表中
+    def dibaotu(self):
+        u = pygame.image.load('./images/enemy1_down1.png')
+        self.di_list.append(u)
+        i = pygame.image.load('./images/enemy1_down2.png')
+        self.di_list.append(i)
+        p = pygame.image.load('./images/enemy1_down3.png')
+        self.di_list.append(p)
+        y = pygame.image.load('./images/enemy1_down4.png')
+        self.di_list.append(y)
+    def baohuan1(self):
+        if self.panzha == True:
+            self.chuangkou.blit(self.di_list[self.num],self.Feiweizhi)
+            self.data += 1
+            if self.data == 10:
+                self.num += 1
+                self.data = 0
+            if self.num > 3:
+                exit()
+    def dibaozha(self):
+        self.panzha = True
 class Dizidan(Tullet):   #创建子弹类
     #初始值子弹图片路径、游戏窗口
     def move(self):
@@ -42,15 +67,15 @@ class Feiji(Plane):
         self.bao_list=[]
         self.panduanbao = False
         self.baotu()
-        self.a =0
-        self.b =0
+        self.a =0#定义图片的初始章数
+        self.b =0#秒数
      # 发射子弹
     def fire(self):
-        a = Zidan('./images/plane.png',self.chuangkou,self.Feiweizhi.x,self.Feiweizhi.y)#定义子弹的对象发出子弹就把他放到列表中
+        a = Zidan('./images/bullet.png',self.chuangkou,self.Feiweizhi.x,self.Feiweizhi.y)#定义子弹的对象发出子弹就把他放到列表中
         self.bullet_list.append(a)#把子弹追加到子弹列表中
 
     def fire1(self):
-        a = Zidan('./images/plane.png',self.chuangkou,self.Feiweizhi.x+70,self.Feiweizhi.y)#定义子弹的对象
+        a = Zidan('./images/bullet.png',self.chuangkou,self.Feiweizhi.x+70,self.Feiweizhi.y)#定义子弹的对象
         self.bullet_list.append(a)#把子弹追加到子弹列表中
     def baozha(self):
         self.panduanbao = True
@@ -88,7 +113,7 @@ def jianshi(hero,move):
             if i.type == pygame.QUIT:#如果某一操作等于退出
                 print('退出程序')
                 pygame.quit()#退出程序
-                exit()
+                #exit()
             elif i.type == pygame.KEYDOWN:
                 if i.key == pygame.K_SPACE:
                     hero.fire()
@@ -111,6 +136,14 @@ def jianshi(hero,move):
         if keys[pygame.K_UP] or keys[pygame.K_w]:
             if hero.Feiweizhi.y > 0:
                 hero.Feiweizhi.y -= move
+def yingxiongzha(hero,hero1):
+    for i in hero.bullet_list:
+        if (i.x > hero1.Feiweizhi.x and i.x < hero1.Feiweizhi.x +100 ) and (i.y > hero1.Feiweizhi.y and i.y < hero1.Feiweizhi.y +124):
+            hero1.dibaozha()
+def dipengzhuang(hero,hero1):
+    for i in hero1.bullet_list:
+        if (i.x > hero.Feiweizhi.x and i.x < hero.Feiweizhi.x +100) and (i.y >hero.Feiweizhi.y and i.y < hero.Feiweizhi.y +124): 
+            hero.baozha()
 def feiji():#创建函数
     chuangkou = pygame.display.set_mode((400,700),0,32)#定义游戏窗口大小
     beijing = pygame.image.load('./images/background.png')#把背景图获取代码中
@@ -129,6 +162,9 @@ def feiji():#创建函数
         if num == 11:
             hero1.fire()
             hero1.fire1()
+        dipengzhuang(hero,hero1)
+        yingxiongzha(hero,hero1)
+        hero1.baohuan1()
         pygame.display.update()#刷新显示
        # clock.tick(60)#每隔多少秒运行一下
 if __name__ == '__main__':#有权限的访问，只有自己可以调式，其他人调用不显示
