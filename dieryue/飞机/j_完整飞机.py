@@ -1,10 +1,10 @@
 import pygame  #导入pygame包
 import random
 from p import *
-
+from random import randint
 class Enemyplane(Plane):   #创建飞机类
     #初始值飞机图片路径、游戏窗口
-    def __init__(self,ing_path,chuangkou):
+    def __init__(self,ing_path,chuangkou,x,y):
         Plane.__init__(self,ing_path,chuangkou,0,0)
         self.flag = 'right'
         self.di_list=[]
@@ -48,7 +48,7 @@ class Enemyplane(Plane):   #创建飞机类
                 self.num += 1
                 self.data = 0
             if self.num > 3:
-                exit()
+                feiji()
     def dibaozha(self):
         self.panzha = True
 class Dizidan(Tullet):   #创建子弹类
@@ -96,9 +96,10 @@ class Feiji(Plane):
                 self.a+=1
                 self.b = 0
             if self.a > 3:
-                self.Feiweizhi.x = 500
-                self.Feiweizhi.y = 800
-                exit()              
+               # self.Feiweizhi.x = 500
+               # self.Feiweizhi.y = 800
+               # exit()              
+               feiji()
 class Zidan(Tullet):   #创建子弹类
     #初始值子弹图片路径、游戏窗口
     def move(self):
@@ -113,29 +114,30 @@ def jianshi(hero,move):
             if i.type == pygame.QUIT:#如果某一操作等于退出
                 print('退出程序')
                 pygame.quit()#退出程序
-                #exit()
+                exit()
             elif i.type == pygame.KEYDOWN:
                 if i.key == pygame.K_SPACE:
                     hero.fire()
                     hero.fire1()
                 elif i.key == pygame.K_z:
                     hero.baozha()                   
-        keys = pygame.key.get_pressed()
-       # if keys[pygame.K_SPACE]or keys[pygame.K_x]:
-        #    hero.fire()
-         #   hero.fire1()
-        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+        keys_pressed = pygame.key.get_pressed()
+        if keys_pressed[pygame.K_b]:
+            hero.fire()
+            hero.fire1()
+        if keys_pressed[pygame.K_RIGHT] or keys_pressed[pygame.K_d]:
             if hero.Feiweizhi.x < 400 - hero.Feiweizhi.width:
                 hero.Feiweizhi.x += move
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+        if keys_pressed[pygame.K_LEFT] or keys_pressed[pygame.K_a]:
             if hero.Feiweizhi.x > 0:
                 hero.Feiweizhi.x -= move
-        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
+        if keys_pressed[pygame.K_DOWN] or keys_pressed[pygame.K_s]:
             if hero.Feiweizhi.y < 700 - hero.Feiweizhi.height:
                 hero.Feiweizhi.y += move
-        if keys[pygame.K_UP] or keys[pygame.K_w]:
+        if keys_pressed[pygame.K_UP] or keys_pressed[pygame.K_w]:
             if hero.Feiweizhi.y > 0:
                 hero.Feiweizhi.y -= move
+       
 def yingxiongzha(hero,hero1):
     for i in hero.bullet_list:
         if (i.x > hero1.Feiweizhi.x and i.x < hero1.Feiweizhi.x +100 ) and (i.y > hero1.Feiweizhi.y and i.y < hero1.Feiweizhi.y +124):
@@ -149,8 +151,8 @@ def feiji():#创建函数
     beijing = pygame.image.load('./images/background.png')#把背景图获取代码中
     clock = pygame.time.Clock()#pygame中自带的时间包
     hero = Feiji('./images/hero1.png',chuangkou)#创建一个飞机对象，传入路径参数
-    
-    hero1 = Enemyplane('./images/enemy1.png',chuangkou)    
+ 
+    hero1 = Enemyplane('./images/enemy1.png',chuangkou,0,0)    
     while True: #循环输出
         jianshi(hero,10)
         chuangkou.blit(beijing,(0,0))#打背景图获取到代码上
