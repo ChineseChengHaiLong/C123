@@ -96,8 +96,6 @@ class Feiji(Plane):
                 self.a+=1
                 self.b = 0
             if self.a > 3:
-               # self.Feiweizhi.x = 500
-               # self.Feiweizhi.y = 800
                # exit()              
                feiji()
 class Zidan(Tullet):   #创建子弹类
@@ -148,6 +146,8 @@ def dipengzhuang(hero,hero1):
             hero.baozha()
 def feiji():#创建函数
     chuangkou = pygame.display.set_mode((400,700),0,32)#定义游戏窗口大小
+def feiji():#创建函数
+    chuangkou = pygame.display.set_mode((400,700),0,32)#定义游戏窗口大小
     beijing = pygame.image.load('./images/background.png')#把背景图获取代码中
     clock = pygame.time.Clock()#pygame中自带的时间包
     hero = Feiji('./images/hero1.png',chuangkou)#创建一个飞机对象，传入路径参数
@@ -168,6 +168,5 @@ def feiji():#创建函数
         yingxiongzha(hero,hero1)
         hero1.baohuan1()
         pygame.display.update()#刷新显示
-       # clock.tick(60)#每隔多少秒运行一下
 if __name__ == '__main__':#有权限的访问，只有自己可以调式，其他人调用不显示
     feiji()
